@@ -77,6 +77,18 @@ diffs, author, date/time, commit message, parent commit reference all hashed int
 - References (branches & tags)
 pointers to an object (and only that!), can be moved and have some content
 
+* Commit your work
+- Make changes in your repository and view them using
+  $ git status
+  $ git diff
+- Add the changes to the staging area.
+  $ git add -A
+- Commit the changes
+  $ git commit -m "Message Body"
+- View the history:
+  $ git log
+
+
 * Ex. 2: Branching
 
 - create a branch on master:
@@ -92,16 +104,6 @@ pointers to an object (and only that!), can be moved and have some content
     $ git log
 
 - try switching between the branches!
-
-* Stashing
-To isolate non-commited changes when switching branches, use stashing to 'shelve' those changes.
-
-  $ git checkout f_X
-  // Edit a file or create one
-  $ git stash
-  $ git status
-  $ git checkout master
-  $ git status
 
 * Merging
 Merging in Git mostly means advancing references consistently. We can only merge branches.
@@ -128,8 +130,18 @@ Not all merges are that easy!!
     $ git push origin master
 - pulling changes from a remote repository
     $ git pull origin master
-- only fetch the remote changes without merging with the local branch:
+- only update the tracking branches without merging with the local branch:
     $ git fetch origin
+
+* Stashing
+To isolate non-commited changes when switching branches, use stashing to 'shelve' those changes.
+
+  $ git checkout f_X
+  // Edit a file or create one
+  $ git stash
+  $ git status
+  $ git checkout master
+  $ git status
 
 * Ex 3: Remotes
 
@@ -203,3 +215,9 @@ Tags are simple References (!) but they cannot be moved!
 - Push History that has been rewritten!
 - Work all together on a single branch
 - mess up the .git folder!!!!
+
+* Honorable Mentions
+ - Reverting (Undo Stuff)
+ - Custom Diff & Merge tools
+ - Subrepositories (on specific tags)
+ - much more ...
