@@ -1,0 +1,205 @@
+Git
+
+Michael Ingold
+Developer and Gopher
+github: enzian
+@michaelingold
+michael.ingold@leuchterag.ch
+
+* Agenda
+- Introduction into distributed version control with Git
+- Branching, Merging, Stashing
+- Remote Repositories
+- Pull request collaboration
+
+*
+.image images/git-blame.jpg
+
+* Before Git
+- Visual source safe (n'uff said)
+- Subversion
+- Team Foundation Version Control
+- Mercurial
+- Git
+
+* Centralized :
+- Huge servers
+- commit = push
+- complicated branching
+- global history
+- commit == hell
+- single global branch (entire team on one branch)
+- mostly online
+- require ex(t|p)ensive tooling and UIs
+- rigid
+- given workflows
+
+* vs. Distirbuted
+- No servers (not required, but usefull)
+- commit + push
+- lightweight branching (branching takes Milliseconds)
+- local history that gets pushed
+- commits are isolated and independant of others
+- many branches (i.e. feature branches)
+- completely offline
+- free, comprehensive, open source, head-less (no UI necessary, but usefull)
+- extensive
+- open workflows
+- Git is simple - Simplicity is king!
+
+* Ex. 0: Setup
+  $ git config --global user.name "Dawyne <The Rock> Johnson"
+  $ git config --global user.email "the.rock@destruction.com"
+  $ git config --global alias.lg1 log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+  $ git config --global alias.lg2 log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+  $ git config --global alias.lg
+
+https://gist.github.com/enzian/38e03fdeae6690de34bb
+
+
+* Ex. 1: Clone / Init
+- clone an existing repository
+    $ git clone https://github.com/enzian/git-demo
+- initialize an empty repository
+    $ git init [--bare]
+- inspect the branches:
+    $ git branch -a
+- show the commit tree:
+    $ git log
+
+* Git Objects and References
+Git knows two types of data:
+
+- Objects (commits)
+diffs, author, date/time, commit message, parent commit reference all hashed into the commit id
+
+
+- References (branches & tags)
+pointers to an object (and only that!), can be moved and have some content
+
+* Ex. 2: Branching
+
+- create a branch on master:
+    $ git checkout -b f_X
+    $ git branch -a
+    $ git log
+
+- make a commit:
+    $ git status
+    $ git diff //(press Q to exit)
+    $ git add -A
+    $ git commit -m "new line in Readme.md"
+    $ git log
+
+- try switching between the branches!
+
+* Stashing
+To isolate non-commited changes when switching branches, use stashing to 'shelve' those changes.
+
+  $ git checkout f_X
+  // Edit a file or create one
+  $ git stash
+  $ git status
+  $ git checkout master
+  $ git status
+
+* Merging
+Merging in Git mostly means advancing references consistently. We can only merge branches.
+
+- Fast forward merge:
+    $ git checkout master
+    $ git merge f_X
+    $ git log
+
+Not all merges are that easy!!
+
+- provoke a conflict by changing the same file on both branches
+- Merge the changes with the `git merge` command
+- force another conflict and try to abort the merge this time!
+- Try and explain to the group what's going under the hood!
+
+* Remote Repositories
+
+- list all remote repositories
+    $ git remote -v
+- Add a remote repository
+    $ git remote add https://github.com/%user%/git-demo
+- pushing commits to the remote repository
+    $ git push origin master
+- pulling changes from a remote repository
+    $ git pull origin master
+- only fetch the remote changes without merging with the local branch:
+    $ git fetch origin
+
+* Ex 3: Remotes
+
+- Create a github account and create a new EMPTY repository
+- Delete the `github.com/enzian` repository
+- Add this repository as a remote in your existing repository called `origin`
+- Push your local changes to this repository
+- (try to fork another repository on github)
+
+* Rebasing
+Rebasing is used to keep you work branch up to date with the original branch you will want to merge to later.
+
+  $ git checkout f_X
+  $ git rebase master
+
+*Attention:* Rebasing rewrites history! Never rebase anything that's already been pushed!
+
+Using rebase frequently can help you reduce the size of your merges tremendously since you keep merging many smaller changesets more frequently!
+In the best case you will not have to merge at all and can simply to a fast-forward merge!
+
+* Ex 4: Rebasing
+- Given a repository with `master` and `f_X` branches at the same commit.
+- Checkout `f_X`
+- Add a new file and commit two changes in that file to `f_X`
+- Checkout `master` and add two commits in an existing file
+- Checkout `f_X` again an rebase on master
+  $ git rebase master
+- What happens when rebasing with conflicting changes?
+- Try an 'interactive rebase' and squash some commits together!
+
+* Ex 5: VC with Visual Studio solutions
+- Hear the introduction into the TFS 2015 git features.
+- Create a new VS-Solution with an empty project.
+- use the console to create a new empty repo in the root path of the project.
+- add a .gitignore file that excludes all files generated by VS when building. so you cannot accentally check them in.
+- push the repository to TFS/Github and collaborate with a friend to make some changes. Use the commit and merge functionality in VS.
+
+* Tagging
+Tags are simple References (!) but they cannot be moved!
+
+- List tags of the repository
+  $ git tag
+- creating an anotated tag
+  $ git tag -a v1.4 -m 'my version 1.4'
+- lightweight tag
+  $ git tag v1.4-lw
+- Push a tag to remotes
+  $ git push origin v1.4
+- Set repository to a tag
+  $ git checkout tags/1.4
+
+* Ex 6: Pull requests in TFS 2016 or Github
+- Create and lock down a master branch with an empty project.
+- Every team member clones this repository
+- every one creates a feature branch and makes some changes.
+- you all push your branches to TFS/Github
+- Every one creates a pull request.
+- Process those pull request until all of them have been merged!
+- Share your experience on TFS and Github.
+
+* Do's ...
+- use your head (git is not to be taken lightly!!)
+- make use of branches
+- use pull request features of your collaboration server
+- use fetch, instead of pull and merge manually
+- use rebase to prevent unexpected merges
+- squash stupid commits together
+
+* .. and Don'ts
+- Push - Rebase - Push (detached head statess)
+- Push History that has been rewritten!
+- Work all together on a single branch
+- mess up the .git folder!!!!

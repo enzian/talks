@@ -1,0 +1,32 @@
+Ex. 1: Clone / Init
+
+
+cd C:\Users\miin\Documents\Source\GO\src\github.com\enzian
+git clone https://github.com/enzian/git-demo
+tree /F ./git-demo
+rm -r -force git-demo
+
+- Create Bare
+mkdir git-demo
+cd .\git-demo\
+git init --bare
+cd ..
+rm -r -force git-demo
+
+- at the end:
+git clone https://github.com/enzian/git-demo
+cd .\git-demo\
+
+Ex 2: Branching
+// Wer findet branching cool?!?
+git checkout -b f_X
+git branch -a
+// Explain the branches
+git lg2
+// Change README: add a line of text
+git status
+git diff
+git add -A
+// Explain the staging area
+git commit -m "new line in Readme.md"
+git lg2
